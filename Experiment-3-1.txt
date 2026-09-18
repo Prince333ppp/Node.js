@@ -1,0 +1,177 @@
+
+════════════════════════════════════════════════════════════════════════
+𝗘𝗫𝗣𝗘𝗥𝗜𝗠𝗘𝗡𝗧 3
+════════════════════════════════════════════════════════════════════════
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+𝗦𝗘𝗖𝗧𝗜𝗢𝗡: Step 1: Update HTML Structure
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+────────────────────────────────────────────────────────────────────────
+𝗦𝗢𝗨𝗥𝗖𝗘 𝗙𝗜𝗟𝗘: cart.html
+────────────────────────────────────────────────────────────────────────
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <title>Ace Online Book-store/Cart</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="./assets/images/favicon.png">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+</head>
+
+<body>
+   <!--============================= Navgation bar starts=============================-->
+   <nav class="navbar navbar-expand-sm">
+     <div class="container-fluid justify-content-between">
+        <a class="navbar-brand" href="#"> <img src="./assets/images/white_logo.png" alt="Logo"
+             class="logo-image"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+          <ul class="navbar-nav ms-auto">
+             <li class="nav-item">
+                <a class="nav-link" href="index.html">Home</a>
+             </li>
+             <li class="nav-item">
+                <a class="nav-link" href="login.html">Login</a>
+             </li>
+             <li class="nav-item">
+                <a class="nav-link" href="Registration.html">Registration</a>
+             </li>
+             <li class="nav-item">
+                <a class="nav-link active" href="Catalogue.html">Catalogue</a>
+             </li>
+             <li class="nav-item">
+                <a class="nav-link" href="cart.html"><img src="assets/images/white_cart.png" alt=""></a>
+             </li>
+          </ul>
+        </div>
+     </div>
+   </nav>
+   <!--============================= Navgation bar End=============================-->
+   <section class="section">
+     <div class="container">
+        <div class="row align-items-start gy-4">
+          <h2 class="text-center fw-bold text-white">Shopping Cart</h2>
+          <div class="col-lg-8 col-md-8">
+             <div class="card">
+
+            <div class="card-header">
+              <h5>Your Items</h5>
+            </div>
+            <div class="card-body">
+              <!-- Example item -->
+              <div class="row my-3">
+                 <div class="col-lg-6 col-12">
+                   <h6 class="fw-bold">Product Name</h6>
+                   <p class="fw-bold">Price: $10.00</p>
+                   <div class="d-flex align-items-center gap-2">
+                      <p class="fw-bold">Quantity:</p>
+                      <input type="number" id="quantity" class="form-control w-50"
+                        placeholder="Enter quantity" min="1" required>
+                   </div>
+                 </div>
+                 <div class="col-lg-6 col-12">
+                   <button class="btn btn-primary text-end float-end" id="addToCart">Add to
+                      Cart</button>
+                 </div>
+              </div>
+              <!-- Add more products as needed -->
+            </div>
+         </div>
+       </div>
+       <div class="col-md-4 col-lg-4">
+         <div class="card">
+            <div class="card-header">
+              <h5>Checkout</h5>
+            </div>
+            <div class="card-body text-center">
+              <button class="btn btn-primary gradient-button" id="checkout">Checkout Now</button>
+            </div>
+         </div>
+       </div>
+    </div>
+  </div>
+
+
+</section>
+
+<!-- Script files -->
+<script src="assets/js/script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<!--====================== footer starts ======================-->
+<footer class="bg-dark p-3">
+  <div class="container-fluid">
+     <div class="row align-items-center">
+        <div class="col-lg-4 col-md-5 col-12">
+           <div class="social_media d-flex gap-3 mb-2">
+              <a href="#"><img src="./assets/images/facebook.png" alt="Facebook"></a>
+
+              <a href="#"><img src="./assets/images/twitter.png" alt="Twitter"></a>
+              <a href="#"><img src="./assets/images/instagram.png" alt="Instagram"></a>
+            </div>
+         </div>
+         <div class="col-lg-8 col-md-7 col-12">
+            <p class="text-white text-end mb-0">&copy; 2023 ACE Book Store. All rights reserved.</p>
+         </div>
+       </div>
+    </div>
+  </footer>
+  <!--====================== footer End ======================-->
+
+</body>
+
+</html>
+Step 2: Create JavaScript for Validation
+Now, create a `script.js` file to handle the client-side validation. This script will validate the quantity input when the
+user clicks the "Add to Cart" or "Checkout Now" button.
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+𝗦𝗘𝗖𝗧𝗜𝗢𝗡: Step 2: Create JavaScript for Validation
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+────────────────────────────────────────────────────────────────────────
+𝗦𝗢𝗨𝗥𝗖𝗘 𝗙𝗜𝗟𝗘: Assets/js/script.js
+────────────────────────────────────────────────────────────────────────
+
+// Whithout validation, the code would look like this:
+
+document.addEventListener('DOMContentLoaded', function () {
+  const addToCartButton = document.getElementById('addToCart');
+  const checkoutButton = document.getElementById('checkout');
+  const quantityInput = document.getElementById('quantity');
+
+  // Function to validate quantity
+  function validateQuantity() {
+     const quantity = parseInt(quantityInput.value);
+     if (isNaN(quantity) || quantity < 1) { //is a JavaScript function used to check whether the value of quantity is
+Not a Number (NaN).
+        alert("Please enter a valid quantity (greater than 0).");
+        quantityInput.focus();
+        return false;
+     }
+     return true;
+  }
+  // Event listener for Add to Cart button
+  addToCartButton.addEventListener('click', function () {
+     if (validateQuantity()) {
+        alert("Item added to cart successfully!");
+
+     }
+  });
+  // Event listener for Checkout button
+  checkoutButton.addEventListener('click', function () {
+     if (validateQuantity()) {
+        alert("Proceeding to checkout...");
+        // Here you can add code to handle the checkout process
+
+      }
+   });
+});
