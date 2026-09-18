@@ -1,0 +1,708 @@
+
+════════════════════════════════════════════════════════════════════════
+𝗘𝗫𝗣𝗘𝗥𝗜𝗠𝗘𝗡𝗧 2
+════════════════════════════════════════════════════════════════════════
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+𝗦𝗘𝗖𝗧𝗜𝗢𝗡: Step 1: Include Bootstrap
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+────────────────────────────────────────────────────────────────────────
+𝗦𝗢𝗨𝗥𝗖𝗘 𝗙𝗜𝗟𝗘: Index.html
+────────────────────────────────────────────────────────────────────────
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shopping Cart</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="styles.css"><!-- Your custom styles -->
+</head>
+<body>
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+𝗦𝗘𝗖𝗧𝗜𝗢𝗡: Step 2: Create a Responsive Layout
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+────────────────────────────────────────────────────────────────────────
+𝗦𝗢𝗨𝗥𝗖𝗘 𝗙𝗜𝗟𝗘: Index.html
+────────────────────────────────────────────────────────────────────────
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Ace Online Book-store/Home</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="./assets/images/favicon.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <link rel="stylesheet" href="assets/css/index.css">
+</head>
+
+<body>
+   <!--============================= Navgation bar starts=============================-->
+   <nav class="navbar navbar-expand-sm">
+     <div class="container-fluid justify-content-between">
+        <a class="navbar-brand" href="#"> <img src="./assets/images/white_logo.png" alt="Logo"
+             class="logo-image"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+          <ul class="navbar-nav ms-auto">
+             <li class="nav-item">
+                <a class="nav-link active" href="index.html">Home</a>
+             </li>
+             <li class="nav-item">
+                <a class="nav-link" href="login.html">Login</a>
+             </li>
+             <li class="nav-item">
+                <a class="nav-link" href="Registration">Registration</a>
+             </li>
+             <li class="nav-item">
+                <a class="nav-link" href="Catalogue.html">Catalogue</a>
+             </li>
+             <li class="nav-item">
+                <a class="nav-link" href="cart.html"><img src="assets/images/white_cart.png" alt=""></a>
+             </li>
+          </ul>
+        </div>
+     </div>
+   </nav>
+   <!--============================= Navgation bar End=============================-->
+   <section>
+     <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6">
+             <h1>Find your next great read at our online <span>ACE book store</span></h1>
+             <p>Explore our current collection</p>
+             <div class="search_container d-flex gap-0">
+                <input type="text" placeholder="Find your books here....">
+                <button class="btn btn-primary search_button">Search now</button>
+             </div>
+          </div>
+          <div class="col-lg-6">
+             <div class="home_img">
+                <img src="./assets/images/Home_image.svg" alt="Book" class="book-image img-fluid">
+             </div>
+
+          </div>
+       </div>
+    </div>
+  </section>
+  <!--====================== footer starts ======================-->
+  <footer class="bg-dark p-3">
+    <div class="container-fluid">
+       <div class="row align-items-center">
+          <div class="col-lg-4 col-md-5 col-12">
+            <div class="social_media d-flex gap-3 mb-2">
+               <a href="#"><img src="./assets/images/facebook.png" alt="Facebook"></a>
+               <a href="#"><img src="./assets/images/twitter.png" alt="Twitter"></a>
+               <a href="#"><img src="./assets/images/instagram.png" alt="Instagram"></a>
+            </div>
+          </div>
+          <div class="col-lg-8 col-md-7 col-12">
+            <p class="text-white text-end mb-0">&copy; 2023 ACE Book Store. All rights reserved.</p>
+          </div>
+       </div>
+    </div>
+  </footer>
+  <!--====================== footer starts ======================-->
+</body>
+
+</html>
+</body>
+
+────────────────────────────────────────────────────────────────────────
+𝗦𝗢𝗨𝗥𝗖𝗘 𝗙𝗜𝗟𝗘: cart.html
+────────────────────────────────────────────────────────────────────────
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Ace Online Book-store/Cart</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+   <!--============================= Navgation bar starts=============================-->
+   <nav class="navbar navbar-expand-sm">
+     <div class="container-fluid justify-content-between">
+        <a class="navbar-brand" href="#"> <img src="./assets/images/white_logo.png" alt="Logo"
+             class="logo-image"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+
+       <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+             <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" href="login.html">Login</a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" href="Registration.html">Registration</a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link active" href="Catalogue.html">Catalogue</a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" href="cart.html"><img src="assets/images/white_cart.png" alt=""></a>
+          </li>
+       </ul>
+     </div>
+  </div>
+</nav>
+<!--============================= Navgation bar End=============================-->
+<section class="section">
+  <div class="container">
+     <div class="row align-items-start gy-4">
+       <h2 class="text-center">Shopping Cart</h2>
+       <div class="col-lg-8 col-md-8">
+          <div class="card">
+             <div class="card-header">
+                <h5>Your Items</h5>
+             </div>
+             <div class="card-body">
+                <!-- Example item -->
+                <div class="row my-3">
+                  <div class="col-lg-6 col-12">
+                     <h6>Product Name</h6>
+                     <p>Price: $10.00</p>
+                     <input type="number" id="quantity" class="form-control" placeholder="Enter quantity"
+                       min="1" required>
+                  </div>
+                  <div class="col-lg-6 col-12">
+                     <button class="btn btn-primary text-end float-end" id="addToCart">Add to Cart</button>
+                  </div>
+                </div>
+                <!-- Add more products as needed -->
+             </div>
+          </div>
+       </div>
+       <div class="col-md-4">
+          <div class="card">
+             <div class="card-header">
+
+                <h5>Checkout</h5>
+              </div>
+              <div class="card-body text-center">
+                <button class="btn btn-danger gradient-button" id="checkout">Checkout Now</button>
+              </div>
+           </div>
+         </div>
+      </div>
+    </div>
+
+
+  </section>
+  <!--====================== footer starts ======================-->
+  <footer class="bg-dark p-3">
+    <div class="container-fluid">
+       <div class="row align-items-center">
+          <div class="col-lg-4 col-md-5 col-12">
+            <div class="social_media d-flex gap-3 mb-2">
+               <a href="#"><img src="./assets/images/facebook.png" alt="Facebook"></a>
+               <a href="#"><img src="./assets/images/twitter.png" alt="Twitter"></a>
+               <a href="#"><img src="./assets/images/instagram.png" alt="Instagram"></a>
+            </div>
+          </div>
+          <div class="col-lg-8 col-md-7 col-12">
+            <p class="text-white text-end mb-0">&copy; 2023 ACE Book Store. All rights reserved.</p>
+          </div>
+       </div>
+    </div>
+  </footer>
+  <!--====================== footer End ======================-->
+</body>
+
+</html>
+
+────────────────────────────────────────────────────────────────────────
+𝗦𝗢𝗨𝗥𝗖𝗘 𝗙𝗜𝗟𝗘: Catalogue.html
+────────────────────────────────────────────────────────────────────────
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Ace Online Book-store/Catalague</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+  <!--============================= Navgation bar starts=============================-->
+  <nav class="navbar navbar-expand-sm">
+
+     <div class="container-fluid justify-content-between">
+        <a class="navbar-brand" href="#"> <img src="./assets/images/white_logo.png" alt="Logo"
+             class="logo-image"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+          <ul class="navbar-nav ms-auto">
+             <li class="nav-item">
+                <a class="nav-link" href="index.html">Home</a>
+             </li>
+             <li class="nav-item">
+                <a class="nav-link" href="login.html">Login</a>
+             </li>
+             <li class="nav-item">
+                <a class="nav-link" href="Registration.html">Registration</a>
+             </li>
+             <li class="nav-item">
+                <a class="nav-link active" href="Catalogue.html">Catalogue</a>
+             </li>
+             <li class="nav-item">
+                <a class="nav-link" href="cart.html"><img src="assets/images/white_cart.png" alt=""></a>
+             </li>
+          </ul>
+        </div>
+     </div>
+   </nav>
+   <!--============================= Navgation bar End=============================-->
+   <section>
+     <div class="container">
+        <div class="row align-items-center gy-4">
+          <div class="col-lg-3">
+             <div class="card overflow-hidden">
+                <div class="card-img">
+                   <img src="assets/images/catalogue.jpg" alt="" class="img-fluid">
+                </div>
+                <div class="card-body">
+                   <h4>Product - 1</h4>
+                   <p>Describe of product 1</p>
+                   <a href="cart.html" class="btn btn-primary w-100">Add to cart</a>
+                </div>
+             </div>
+          </div>
+          <div class="col-lg-3">
+             <div class="card overflow-hidden">
+                <div class="card-img">
+                   <img src="assets/images/catalogue.jpg" alt="" class="img-fluid">
+                </div>
+                <div class="card-body">
+
+       <h4>Product - 1</h4>
+       <p>Describe of product 1</p>
+        <a href="cart.html" class="btn btn-primary w-100">Add to cart</a>
+     </div>
+  </div>
+</div>
+<div class="col-lg-3">
+  <div class="card overflow-hidden">
+     <div class="card-img">
+       <img src="assets/images/catalogue.jpg" alt="" class="img-fluid">
+     </div>
+     <div class="card-body">
+       <h4>Product - 1</h4>
+       <p>Describe of product 1</p>
+        <a href="cart.html" class="btn btn-primary w-100">Add to cart</a>
+     </div>
+  </div>
+</div>
+<div class="col-lg-3">
+  <div class="card overflow-hidden">
+     <div class="card-img">
+       <img src="assets/images/catalogue.jpg" alt="" class="img-fluid">
+     </div>
+     <div class="card-body">
+       <h4>Product - 1</h4>
+       <p>Describe of product 1</p>
+        <a href="cart.html" class="btn btn-primary w-100">Add to cart</a>
+     </div>
+  </div>
+</div>
+<div class="col-lg-3">
+  <div class="card overflow-hidden">
+     <div class="card-img">
+       <img src="assets/images/catalogue.jpg" alt="" class="img-fluid">
+     </div>
+     <div class="card-body">
+       <h4>Product - 1</h4>
+       <p>Describe of product 1</p>
+        <a href="cart.html" class="btn btn-primary w-100">Add to cart</a>
+     </div>
+  </div>
+</div>
+<div class="col-lg-3">
+  <div class="card overflow-hidden">
+     <div class="card-img">
+       <img src="assets/images/catalogue.jpg" alt="" class="img-fluid">
+     </div>
+     <div class="card-body">
+       <h4>Product - 1</h4>
+       <p>Describe of product 1</p>
+
+                  <a href="cart.html" class="btn btn-primary w-100">Add to cart</a>
+               </div>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="card overflow-hidden">
+               <div class="card-img">
+                 <img src="assets/images/catalogue.jpg" alt="" class="img-fluid">
+               </div>
+               <div class="card-body">
+                 <h4>Product - 1</h4>
+                 <p>Describe of product 1</p>
+                  <a href="cart.html" class="btn btn-primary w-100">Add to cart</a>
+               </div>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="card overflow-hidden">
+               <div class="card-img">
+                 <img src="assets/images/catalogue.jpg" alt="" class="img-fluid">
+               </div>
+               <div class="card-body">
+                 <h4>Product - 1</h4>
+                 <p>Describe of product 1</p>
+                  <a href="cart.html" class="btn btn-primary w-100">Add to cart</a>
+               </div>
+            </div>
+          </div>
+       </div>
+    </div>
+  </section>
+  <!--====================== footer starts ======================-->
+  <footer class="bg-dark p-3">
+    <div class="container-fluid">
+       <div class="row align-items-center">
+          <div class="col-lg-4 col-md-5 col-12">
+            <div class="social_media d-flex gap-3 mb-2">
+               <a href="#"><img src="./assets/images/facebook.png" alt="Facebook"></a>
+               <a href="#"><img src="./assets/images/twitter.png" alt="Twitter"></a>
+               <a href="#"><img src="./assets/images/instagram.png" alt="Instagram"></a>
+            </div>
+          </div>
+          <div class="col-lg-8 col-md-7 col-12">
+            <p class="text-white text-end mb-0">&copy; 2023 ACE Book Store. All rights reserved.</p>
+          </div>
+       </div>
+    </div>
+  </footer>
+  <!--====================== footer End ======================-->
+</body>
+
+</html>
+
+────────────────────────────────────────────────────────────────────────
+𝗦𝗢𝗨𝗥𝗖𝗘 𝗙𝗜𝗟𝗘: Login.html
+────────────────────────────────────────────────────────────────────────
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Ace Online Book-store/Login</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="./assets/images/favicon.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+   <!--============================= Navgation bar starts=============================-->
+   <nav class="navbar navbar-expand-sm">
+     <div class="container-fluid justify-content-between">
+        <a class="navbar-brand" href="#"> <img src="./assets/images/white_logo.png" alt="Logo"
+             class="logo-image"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+          <ul class="navbar-nav ms-auto">
+             <li class="nav-item">
+                <a class="nav-link" href="index.html">Home</a>
+             </li>
+             <li class="nav-item">
+                <a class="nav-link active" href="login.html">Login</a>
+             </li>
+             <li class="nav-item">
+                <a class="nav-link" href="Registration.html">Registration</a>
+             </li>
+             <li class="nav-item">
+                <a class="nav-link" href="Catalogue.html">Catalogue</a>
+             </li>
+             <li class="nav-item">
+                <a class="nav-link" href="cart.html"><img src="assets/images/white_cart.png" alt=""></a>
+             </li>
+          </ul>
+        </div>
+     </div>
+   </nav>
+   <!--============================= Navgation bar End=============================-->
+
+  <section class="section">
+    <div class="container">
+       <div class="row align-items-center justify-content-center">
+         <div class="col-lg-5">
+            <div class="card">
+               <div class="card-body">
+                 <h4 class="mb-3 text-center">Login </h4>
+                 <form action="registration.html">
+                    <div class="form-group mb-3">
+                      <!-- <label for="email">Email:</label> -->
+                      <input type="email" class="form-control" id="email" name="email"
+                         placeholder="Email">
+                    </div>
+                    <div class="form-group mb-3">
+                      <!-- <label for="password">Password:</label> -->
+                      <input type="password" class="form-control" id="password" placeholder="Password"
+                         name="password">
+                    </div>
+                    <input type="submit" class="btn btn-primary w-100" value="Login">
+                    <p class="mt-3 text-center">Dont have an account <a href="Registration.html">Register
+                         here</a></p>
+                 </form>
+               </div>
+            </div>
+
+         </div>
+
+       </div>
+     </div>
+  </section>
+  <!--====================== footer starts ======================-->
+  <footer class="bg-dark p-3">
+     <div class="container-fluid">
+       <div class="row align-items-center">
+          <div class="col-lg-4 col-md-5 col-12">
+            <div class="social_media d-flex gap-3 mb-2">
+               <a href="#"><img src="./assets/images/facebook.png" alt="Facebook"></a>
+               <a href="#"><img src="./assets/images/twitter.png" alt="Twitter"></a>
+               <a href="#"><img src="./assets/images/instagram.png" alt="Instagram"></a>
+            </div>
+          </div>
+          <div class="col-lg-8 col-md-7 col-12">
+            <p class="text-white text-end mb-0">&copy; 2023 ACE Book Store. All rights reserved.</p>
+          </div>
+       </div>
+     </div>
+  </footer>
+  <!--====================== footer starts ======================-->
+</body>
+
+
+</html>
+
+────────────────────────────────────────────────────────────────────────
+𝗦𝗢𝗨𝗥𝗖𝗘 𝗙𝗜𝗟𝗘: Registration.html
+────────────────────────────────────────────────────────────────────────
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Ace Online Book-store/Registration</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+   <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+   <!--============================= Navgation bar starts=============================-->
+   <nav class="navbar navbar-expand-sm">
+     <div class="container-fluid justify-content-between">
+        <a class="navbar-brand" href="#"> <img src="./assets/images/white_logo.png" alt="Logo"
+             class="logo-image"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+          <ul class="navbar-nav ms-auto">
+             <li class="nav-item">
+                <a class="nav-link" href="index.html">Home</a>
+             </li>
+             <li class="nav-item">
+                <a class="nav-link" href="login.html">Login</a>
+             </li>
+             <li class="nav-item">
+                <a class="nav-link active" href="Registration.html">Registration</a>
+             </li>
+             <li class="nav-item">
+                <a class="nav-link" href="Catalogue.html">Catalogue</a>
+             </li>
+             <li class="nav-item">
+                <a class="nav-link" href="cart.html"><img src="assets/images/white_cart.png" alt=""></a>
+             </li>
+          </ul>
+        </div>
+     </div>
+   </nav>
+   <!--============================= Navgation bar End=============================-->
+   <section class="section">
+
+  <div class="container">
+    <div class="row align-items-center justify-content-center">
+       <div class="col-lg-5">
+         <div class="card">
+            <div class="card-body">
+              <h4 class="mb-3 text-center">Registration </h4>
+              <form action="/registration.html">
+                 <div class="form-group mb-3">
+                   <!-- <label for="email">Email:</label> -->
+                   <input type="email" class="form-control" id="email" name="email"
+                      placeholder="Email">
+                 </div>
+                 <div class="form-group mb-3">
+                   <!-- <label for="password">Password:</label> -->
+                   <input type="password" class="form-control" id="password" placeholder="Password"
+                      name="password">
+                 </div>
+                 <div class="form-group mb-3">
+                   <!-- <label for="password">Password:</label> -->
+                   <input type="tel" class="form-control" placeholder="Enter Mobile" name="TEL">
+                 </div>
+                 <input type="submit" class="btn btn-primary w-100" value="Register">
+                 <p class="mt-3 text-center">Already have an account <a href="login.html">Login here</a></p>
+              </form>
+            </div>
+         </div>
+
+       </div>
+
+     </div>
+  </div>
+</section>
+<!--====================== footer starts ======================-->
+<footer class="bg-dark p-3">
+  <div class="container-fluid">
+     <div class="row align-items-center">
+        <div class="col-lg-4 col-md-5 col-12">
+          <div class="social_media d-flex gap-3 mb-2">
+             <a href="#"><img src="./assets/images/facebook.png" alt="Facebook"></a>
+             <a href="#"><img src="./assets/images/twitter.png" alt="Twitter"></a>
+             <a href="#"><img src="./assets/images/instagram.png" alt="Instagram"></a>
+          </div>
+        </div>
+        <div class="col-lg-8 col-md-7 col-12">
+          <p class="text-white text-end mb-0">&copy; 2023 ACE Book Store. All rights reserved.</p>
+        </div>
+     </div>
+  </div>
+</footer>
+<!--====================== footer starts ======================-->
+
+</body>
+
+</html>
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+𝗦𝗘𝗖𝗧𝗜𝗢𝗡: Step 3: Update CSS Styles
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+────────────────────────────────────────────────────────────────────────
+𝗦𝗢𝗨𝗥𝗖𝗘 𝗙𝗜𝗟𝗘: styles.css
+────────────────────────────────────────────────────────────────────────
+
+*{
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+p{
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+
+section {
+  background-color: #F49D36;
+  padding: 20px;
+}
+
+.section {
+   padding: 120px 20px !important;
+}
+
+nav {
+  background: #0973AD;
+  box-shadow: 0 0 27px 0 rgba(0, 0, 0, 0.25);
+}
+
+.nav-link {
+   text-decoration: none;
+   color: white;
+   font-size: 16px;
+   font-weight: 500;
+}
+
+.nav-link.active {
+   color: white !important;
+   font-weight: 600;
+
+}
+
+.nav-link:hover {
+   color: #F49D36;
+}
+
+.navbar-toggler-icon {
+   background-image: url('../images/menu-icon.svg') !important;
+}
+
+button.navbar-toggler {
+  border: 1px solid #ffff !important;
+}
+
+.home_heading {
+  border-bottom: 1px solid #D0CFCF;
+}
+
+────────────────────────────────────────────────────────────────────────
+𝗦𝗢𝗨𝗥𝗖𝗘 𝗙𝗜𝗟𝗘: index.css
+────────────────────────────────────────────────────────────────────────
+
+section h1 {
+  color: #000;
+  font-size: 58px;
+  font-weight: 700;
+  line-height: 60px;
+  margin-bottom: 10px;
+}
+
+section h1 span {
+  color: #DC1111;
+}
+
+section input {
+   border-radius: 8px 0 0 8px;
+   background: rgba(255, 255, 255, 0.70);
+   color: #666;
+   font-size: 12px;
+   font-weight: 400;
+   padding: 10px 20px;
+   border: none;
+}
+.search_container button {
+   border-radius: 0 9px 9px 0 !important;
+}
