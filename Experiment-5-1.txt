@@ -1,0 +1,464 @@
+==============================================================================
+EXPERIMENT 5
+==============================================================================
+
+
+==============================================================================
+SOURCE FILE: header.jsx
+==============================================================================
+
+import React from 'react';
+import './App.css';
+import Logo from './assets/white_logo.png';
+import { Link } from 'react-router-dom';
+
+function Header() {
+  return (
+    <>
+       <nav class="navbar navbar-expand-sm">
+        <div class="container-fluid justify-content-between">
+            <a class="navbar-brand" href="#">
+                <img src={Logo} alt="Logo" />
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <Link to="/" class="nav-link active" >Home</Link>
+                    </li>
+                    <li class="nav-item">
+                        <Link to="/login" class="nav-link">Login</Link>
+                    </li>
+                    <li class="nav-item">
+                        <Link to="/registration" class="nav-link">Registration</Link>
+                    </li>
+                    <li class="nav-item">
+                        <Link to="/catalogue" class="nav-link">Catalogue</Link>
+                    </li>
+                    <li class="nav-item">
+                        <Link to="/cart" class="nav-link">Cart</Link>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    </>
+  )
+}
+export default Header
+
+==============================================================================
+SOURCE FILE: App.jsx
+==============================================================================
+
+import React from 'react';
+import { useState } from 'react'
+import './App.css';
+import Header from './header.jsx';
+import Home from './home.jsx';
+import Footer from './footer.jsx';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Login from './login.jsx';
+import Registration from './registration.jsx';
+import Catalogue from './Catalogue.jsx';
+import Cart from './Cart.jsx';
+
+function App() {
+  const [count, setCount] = useState(0)
+
+  return (
+    <>
+
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registration" element={<Registration />} />
+          <Route path="/catalogue" element={<Catalogue />} />
+          <Route path="/cart" element={<Cart />} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+
+    </>
+  )
+}
+
+export default App
+
+==============================================================================
+SOURCE FILE: Cart.jsx
+==============================================================================
+
+import react from 'react';
+import './App.css';
+
+function Cart() {
+    return (
+        <>
+            <section class="section">
+                <div class="container">
+                    <div class="row align-items-start">
+                        <h2 class="text-center text-white mb-4">Shopping Cart</h2>
+                        <div class="col-lg-8 col-md-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Your Items</h5>
+                                </div>
+                                <div class="card-body">
+                                    {/* <!-- Example item --> */}
+                                    <div class="row my-3">
+                                        <div class="col-lg-6 col-12">
+                                            <h6>Product Name</h6>
+                                            <p>Price: $10.00</p>
+                                            <input type="number" id="quantity" class="form-control" placeholder="Enter quantity"
+                                                min="1" required />
+                                        </div>
+                                        <div class="col-lg-6 col-12">
+                                            <button class="btn btn-primary text-end float-end" id="addToCart">Add to Cart</button>
+                                        </div>
+                                    </div>
+                                    {/* <!-- Add more products as needed --> */}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Checkout</h5>
+                                </div>
+                                <div class="card-body text-center">
+                                    <button class="btn btn-danger gradient-button" id="checkout">Checkout Now</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </>
+    )
+}
+export default Cart
+
+==============================================================================
+SOURCE FILE: Catalogue.jsx
+==============================================================================
+
+import react, { useState } from 'react';
+import './App.css';
+import { Link } from 'react-router-dom';
+import catalogue from './assets/catalogue.jpg';
+function Catalogue() {
+    const [products, setProducts] = useState([
+        { name: "Product-1", product_name: "Describe of product 1" },
+        { name: "Product-2", product_name: "Describe of product 2" },
+        { name: "Product-3", product_name: "Describe of product 3" },
+        { name: "Product-4", product_name: "Describe of product 4" }
+    ])
+    return (
+        <>
+        <section>
+            <div className="container">
+                <div className="row">
+                    {
+                        products.map((product) => {
+                            return (
+                                <div className="col-lg-3">
+                                    <div className="card overflow-hidden">
+                                        <div className="card-img">
+                                            <img src={catalogue} alt="" className="img-fluid" />
+                                        </div>
+                                        <div className="card-body">
+                                            <h4>{product.name}</h4>
+                                            <p>{product.product_name}</p>
+                                            <Link to="/cart" className="btn btn-primary w-100">Add to cart</Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+            </div>
+            </section>
+        </>
+
+    )
+}
+
+export default Catalogue;
+
+==============================================================================
+SOURCE FILE: footer.jsx
+==============================================================================
+
+import React from 'react';
+import './App.css';
+import Facebook from './assets/facebook.png';
+import Twitter from './assets/twitter.png';
+import Instagram from './assets/instagram.png';
+import Footer from './footer.jsx';
+
+function footer() {
+    return (
+        <>
+            <footer class="bg-dark p-3">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-lg-4 col-md-5 col-12">
+                            <div class="social_media d-flex gap-3 mb-2">
+                                <img src={Facebook} alt="Facebook" />
+                                <img src={Twitter} alt="Twitter" />
+                                <img src={Instagram} alt="Instagram" />
+                            </div>
+                        </div>
+                        <div class="col-lg-8  col-md-7 col-12">
+                            <p class="text-white text-end mb-0">&copy; 2023 ACE Book Store. All rights reserved.</p>
+                        </div>
+
+                    </div>
+                </div>
+            </footer >
+
+        </>
+    )
+}
+export default footer
+
+==============================================================================
+SOURCE FILE: home.jsx
+==============================================================================
+
+import React from 'react';
+import './App.css';
+import Homeimage from './assets/home_image.svg';
+
+function home() {
+    return (
+        <>
+            <section>
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <h1>Find your next great read at our online <span>ACE book store</span></h1>
+                            <p>Explore our current collection</p>
+                            <div class="search_container d-flex gap-0">
+                                <input type="text" placeholder="Find your books here...." />
+                                <button class="btn btn-primary search_button">Search now</button>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="home_img">
+                                <img src={Homeimage} alt="Logo" class="book-image img-fluid" />
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </>
+    )
+}
+export default home
+
+==============================================================================
+SOURCE FILE: login.jsx
+==============================================================================
+
+import React from "react";
+import { Link } from "react-router-dom";
+
+function Login() {
+    return (
+        <>
+            <section class="section">
+                <div class="container">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-5">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="mb-3 text-center">Login </h4>
+                                    <form action="registration.html">
+                                        <div class="form-group mb-3">
+                                            {/* <label for="email">Email:</label>  */}
+                                            <input type="email" class="form-control" id="email" name="email"
+                                                placeholder="Email" />
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            {/* <label for="password">Password:</label> */}
+                                            <input type="password" class="form-control" id="password" placeholder="Password"
+                                                name="password" />
+                                        </div>
+                                        <input type="submit" class="btn btn-primary w-100" value="Login" />
+                                        <p class="mt-3 text-center">Dont have an account <Link to="/registration">Register
+                                            here</Link></p>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </>
+    )
+}
+export default Login
+
+==============================================================================
+SOURCE FILE: main.jsx
+==============================================================================
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.jsx'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+import 'bootstrap-icons/font/bootstrap-icons.css'
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+
+==============================================================================
+SOURCE FILE: registration.jsx
+==============================================================================
+
+import React, { useState } from 'react';
+import './App.css';
+import { Link } from 'react-router-dom';
+
+function Registration() {
+
+    return (
+        <>
+            <section class="section">
+                <div class="container">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-5">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="mb-3 text-center">Registration </h4>
+                                    <form action="/registration.html">
+                                        <div class="form-group mb-3">
+
+                                            <input type="email" class="form-control" id="email" name="email"
+                                                placeholder="Email" />
+                                        </div>
+                                        <div class="form-group mb-3">
+
+                                            <input type="password" class="form-control" id="password" placeholder="Password"
+                                                name="password" />
+                                        </div>
+                                        <div class="form-group mb-3">
+
+                                            <input type="tel" class="form-control" placeholder="Enter Mobile" name="TEL" />
+                                        </div>
+                                        <input type="submit" class="btn btn-primary w-100" value="Register" />
+                                        <p class="mt-3 text-center">Already have an account <Link to="/login">Login here</Link></p>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </>
+    )
+}
+export default Registration
+
+==============================================================================
+SOURCE FILE: App.css
+==============================================================================
+
+section h1 {
+    color: #000;
+    font-size: 58px;
+    font-weight: 700;
+    line-height: 60px;
+    margin-bottom: 10px;
+}
+
+section h1 span {
+    color: #DC1111;
+}
+
+section input {
+    border-radius: 8px 0 0 8px;
+    background: rgba(255, 255, 255, 0.70);
+    color: #666;
+    font-size: 12px;
+    font-weight: 400;
+    padding: 10px 20px;
+    border: none;
+}
+.search_container button {
+    border-radius: 0 9px 9px 0 !important;
+}
+p {
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+
+section {
+    background-color: #F49D36;
+    padding: 20px;
+}
+
+.section {
+    padding: 50px 20px !important;
+}
+
+nav {
+    background: #0973AD;
+    box-shadow: 0 0 27px 0 rgba(0, 0, 0, 0.25);
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #fff !important;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.nav-link.active {
+    color: #fff !important;
+    font-weight: 600;
+}
+
+.nav-link:hover {
+    color: #F49D36;
+}
+
+.navbar-toggler-icon {
+    background-image: url('../src/assets/menu-icon.svg') !important;
+}
+
+button.navbar-toggler {
+    border: 1px solid #ffff !important;
+}
+
+.btn-primary {
+    background-color: #0973AD;
+    font-size: 16px;
+    padding: 10px 20px;
+}
+
+.home_heading {
+    border-bottom: 1px solid #D0CFCF;
+}
