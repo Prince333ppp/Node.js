@@ -3,6 +3,45 @@ EXPERIMENT 5
 ==============================================================================
 
 
+Step 1: Set Up Your React Application
+1. Create a React App:
+   You can use Create React App to set up your project. Open your terminal and run:
+Install Node.js from the official website (nodejs.org).
+Verify the installation in a terminal.
+node -v  |  npm -v
+Run the project creation command.
+npm create vite@latest my-react-app
+ 	Project name: my-react-app
+Select a framework: React
+Select a variant: JavaScript
+cd my-react-app
+npm i
+npm install bootstrap
+npm install react-router-dom
+Start the development server.
+npm run dev
+
+
+
+Step 2: Create the Basic Structure
+src/
+├── components/
+│   ├── Layout.jsx
+│   └── Navbar.jsx
+├── pages/
+│   ├── Home.jsx
+│   ├── Register.jsx
+│   ├── Login.jsx
+│   ├── Catalogue.jsx
+│   └── Cart.jsx
+├── App.jsx
+├── index.jsx
+└── index.css
+└── App.css
+
+
+Step 3: Get to the Components directory and create the following files
+
 ==============================================================================
 SOURCE FILE: header.jsx
 ==============================================================================
@@ -381,6 +420,12 @@ function Registration() {
 }
 export default Registration
 
+
+
+
+Step : Run Your Application
+Now that everything is set up, you can run your application:
+npm run dev
 ==============================================================================
 SOURCE FILE: App.css
 ==============================================================================
