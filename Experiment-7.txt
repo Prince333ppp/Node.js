@@ -1,0 +1,246 @@
+==============================================================================
+EXPERIMENT 7
+==============================================================================
+
+==============================================================================
+STEP 1: SET UP YOUR REACT APPLICATION
+==============================================================================
+
+1. Create a New React App:
+   Open your terminal and create a new React application using Create React App.
+Run the project creation command.
+npm create vite@latest weather-app
+Project name: weather-app
+Select a framework: React
+Select a variant: JavaScript
+cd weather-app
+Start the development server.
+2. Install Additional Packages (Optional):
+ If you plan to use any additional libraries (like Bootstrap for styling), you can install them. For example, to install Bootstrap:
+npm i
+npm install bootstrap
+npm install react-router-dom
+
+Run application use this command npm run dev
+
+==============================================================================
+STEP 2: GET YOUR OPENWEATHERMAP API KEY
+==============================================================================
+
+1. Sign Up: Go to [OpenWeatherMap](https://openweathermap.org/) and sign up for an account.
+2. Get API Key: After signing up, go to the API section and get your API key.
+Step 3: Create a Weather Service
+Create a new folder named services in the src directory and create a file named WeatherService.js.
+mkdir src/services
+touch src/services/WeatherService.jsx
+
+WeatherService.js
+
+==============================================================================
+SOURCE FILE: WeatherService.js
+==============================================================================
+
+import axios from "axios";
+const API_KEY = "d2db27d78dbc261f005fe6fae43008ab";
+const WEATHER_URL = "https://api.openweathermap.org/data/3.0/onecall";
+const GEO_URL = "https://api.openweathermap.org/geo/1.0/direct";
+
+const WeatherService = {
+    // Get coordinates from city name
+    getCityCoordinates: async (city) => {
+        try {
+            const response = await axios.get(GEO_URL, {
+                params: { q: city, limit: 1, appid: API_KEY },
+            });
+            if (response.data.length === 0) throw new Error("City not found");
+            return response.data[0]; // Returns { lat, lon, name }
+        } catch (error) {
+            console.error("Error fetching city coordinates:", error);
+            return null;
+        }
+    },
+    // Get weather using lat/lon
+    getWeather: async (lat, lon) => {
+        try {
+            const response = await axios.get(WEATHER_URL, {
+                params: {
+                    lat,
+                    lon,
+                    exclude: "minutely,hourly,alerts",
+                    units: "metric",
+                    appid: API_KEY,
+                },
+            });
+            return response.data;
+        } catch (error) {
+            console.error("Error fetching weather data:", error);
+            return null;
+        }
+    },
+};
+export default WeatherService;
+
+mkdir src/services
+
+==============================================================================
+SOURCE FILE: WeatherChart.jsx
+==============================================================================
+
+touch src/services/ WeatherChart.jsx
+
+WeatherChart.jsx
+
+import React from "react";
+import { Line } from "react-chartjs-2";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+const WeatherChart = ({ data, city }) => {
+  if (!data) return <p>Loading chart...</p>;
+  // Extract temperatures & dates
+  const labels = data.map((d) => new Date(d.dt * 1000).toLocaleDateString());
+  const temperatures = data.map((d) => d.temp.day);
+  const chartData = {
+    labels,
+    datasets: [
+      {
+        label: `Temperature in ${city} (°C)`,
+        data: temperatures,
+        borderColor: "red",
+        backgroundColor: "rgba(255, 0, 0, 0.3)",
+      },
+    ],
+  };
+  return <Line data={chartData} />;
+};
+export default WeatherChart;
+
+==============================================================================
+SOURCE FILE: App.jsx
+==============================================================================
+
+App.jsx
+import React, { useState } from "react";
+import axios from "axios";
+import { Line } from "react-chartjs-2";
+import './App.css';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+const API_KEY = "f6dc4f4e7b873301bc6afaeb13e4ea58"; // Replace with your key
+const WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather";
+const FORECAST_URL = "https://api.openweathermap.org/data/2.5/forecast";
+const App = () => {
+  const [city, setCity] = useState("Hyderabad");
+  const [weatherData, setWeatherData] = useState(null);
+  const fetchWeather = async (cityName) => {
+    try {
+      console.log("Fetching weather for:", cityName);
+      // Fetch current weather
+      const currentWeatherResponse = await axios.get(WEATHER_URL, {
+        params: { q: cityName, units: "metric", appid: API_KEY },
+      });
+      console.log("Current Weather Data:", currentWeatherResponse.data);
+      // Fetch 5-day forecast
+      const forecastResponse = await axios.get(FORECAST_URL, {
+        params: { q: cityName, units: "metric", appid: API_KEY },
+      });
+      console.log("Forecast Data:", forecastResponse.data);
+      // Extract relevant data for the next 5 days
+      const forecastData = forecastResponse.data.list.filter((entry, index) => index % 8 === 0).slice(0, 5);
+      setWeatherData({
+        currentTemp: currentWeatherResponse.data.main.temp,
+        forecast: forecastData,
+      });
+    } catch (error) {
+      console.error("Error fetching weather:", error);
+      alert("Could not fetch weather data. Please check the city name or try again later.");
+    }
+  };
+  const handleSearch = () => {
+    if (!city.trim()) {
+      alert("Please enter a city name.");
+      return;
+    }
+    fetchWeather(city);
+  };
+  return (
+    <section className="py-5">
+      <div className="row justify-content-center mt-5">
+        <div className="col-md-6">
+          <div className="card shadow">
+            <div className="card-body">
+              <h2>Weather Forecast</h2>
+              <div className="d-flex">
+                <input
+                  type="text" className="form-control w-50"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  placeholder="Enter city name"
+                />
+                <button className="btn btn-primary ms-2 text-white" onClick={handleSearch}>
+                  Get Weather
+                </button>
+              </div>
+              {weatherData ? (
+                <div className="bg-white p-3 mt-3 rounded shadow">
+                  <h3>Current Temperature in {city}: {weatherData.currentTemp}°C</h3>
+                  <div style={{ width: "400px", height: "250px", margin: "auto" }}>
+                    <Line
+                      data={{
+                        labels: weatherData.forecast.map((d) => new Date(d.dt * 1000).toLocaleDateString()),
+                        datasets: [
+                          {
+                            label: `Temperature Forecast (°C)`,
+                            data: weatherData.forecast.map((d) => d.main.temp),
+                            borderColor: "blue",
+                            backgroundColor: "rgba(0, 0, 255, 0.3)",
+                          },
+                        ],
+                      }}
+                      options={{
+                        maintainAspectRatio: false, // Ensures it respects div size
+                      }}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <p>Enter a city and click "Get Weather"</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+export default App;
+
+==============================================================================
+SOURCE FILE: main.jsx
+==============================================================================
+
+main.jsx
+
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App.jsx";
+import "./App.css";
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+createRoot(document.getElementById("root")).render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);
+
+==============================================================================
+STEP 4: RUN YOUR APPLICATION
+==============================================================================
+
+Run your application locally to test it.
+npm run dev
+
+==============================================================================
+STEP 5: ACCESS YOUR APPLICATION
+==============================================================================
+
+Open your browser and go to http://localhost:5173/ .
