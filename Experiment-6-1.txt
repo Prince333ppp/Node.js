@@ -1,0 +1,207 @@
+==============================================================================
+EXPERIMENT 6
+==============================================================================
+
+==============================================================================
+STEP 1: SET UP YOUR REACT APPLICATION
+==============================================================================
+
+1. Create a New React App:
+   Open your terminal and create a new React application using Create React App.
+Run the project creation command.
+npm create vite@latest todo-app
+ 	Project name: todo-app
+Select a framework: React
+Select a variant: JavaScript
+cd todo-app
+Start the development server.
+2. Install Additional Packages (Optional):
+ If you plan to use any additional libraries (like Bootstrap for styling), you can install them. For example, to install Bootstrap:
+npm i
+npm install bootstrap
+npm install react-router-dom
+
+Run application use this command npm run dev
+
+==============================================================================
+STEP 2: CREATE THE NECESSARY COMPONENTS
+==============================================================================
+
+Create the TodoItem Component
+Create a file named TodoItem.js inside the components folder.
+// src/components/TodoItem.js
+
+import React from 'react';
+const TodoItem = ({ todo, onDelete }) => {
+    return (
+        <div className="todo-item d-flex justify-content-between align-items-center mb-2 p-2 border rounded">
+            <span>{todo.text}</span>
+            <input className="btn btn-danger btn-sm" type="submit" value="Delete" onClick={() => onDelete(todo.id)}/>
+        </div>
+    );
+}
+export default TodoItem;
+
+Create the TodoList Component
+ // src/components/TodoList.js
+
+import React from 'react';
+import TodoItem from './TodoItem';
+const TodoList = ({ todos, onDelete }) => {
+    return (
+        <div className="todo-list mt-2">
+            {todos.map(todo => (
+                <TodoItem key={todo.id} todo={todo} onDelete={onDelete} />
+            ))}
+        </div>
+    );
+};
+export default TodoList;
+
+Create the AddTodo Component
+Create a file named AddTodo.js.
+// src/components/AddTodo.js
+
+import React, { useState } from 'react';
+const AddTodo = ({ onAdd }) => {
+    const [inputValue, setInputValue] = useState('');
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (inputValue.trim() === '') return;
+        onAdd(inputValue);
+        setInputValue('');
+    };
+    return (
+        <form onSubmit={handleSubmit}>
+            <div className="d-flex">
+                <input
+                    type="text"
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    placeholder="Add a new todo" className='form-control'
+                />
+                <input type="submit" value="Add" className='btn btn-primary' />
+            </div>
+        </form>
+    );
+};
+export default AddTodo;
+
+==============================================================================
+STEP 3: CREATE THE MAIN APPLICATION COMPONENT (src/App.js)
+==============================================================================
+
+Step 3: Create the Main Application Component (src/App.js)
+
+import React, { useState } from 'react';
+import './App.css'
+import TodoList from './components/TodoList';
+import AddTodo from './components/AddTodo';
+import 'bootstrap/dist/css/bootstrap.min.css';
+function App() {
+  const [todos, setTodos] = useState([]);
+  const addTodo = (text) => {
+    const newTodo = { id: Date.now(), text };
+    setTodos([...todos, newTodo]);
+  };
+
+  const deleteTodo = (id) => {
+    setTodos(todos.filter(todo => todo.id !== id));
+  };
+  return (
+    <section>
+      <div className="row mt-5">
+        <div className="row justify-content-center">
+          <div className="col-md-5">
+            <div className="card shadow">
+              <div className="card-body">
+                <h3 className="text-center mb-4">TODO App</h3>
+                 <AddTodo onAdd={addTodo} />
+                 <TodoList todos={todos} onDelete={deleteTodo} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+export default App;
+
+==============================================================================
+STEP 4: CREATE THE MAIN ENTRY FILE (main.jsx)
+==============================================================================
+
+main.jsx
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.jsx'
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+
+==============================================================================
+STEP 5: RUN YOUR APPLICATION
+==============================================================================
+
+Step 5: Run Your Application
+Run your application locally to test it.
+npm start
+
+==============================================================================
+STEP 6: DEPLOY TO GITHUB
+==============================================================================
+
+Step 6: Deploy to GitHub
+1. Initialize a Git Repository:
+In your terminal, make sure you are in the root of your project directory and initialize a Git repository.
+   	git init
+2. Create a .gitignore File:
+   Create a .gitignore file to exclude unnecessary files from being tracked.
+   echo "node_modules/" >> .gitignore
+   echo "build/" >> .gitignore
+3. Add and Commit Your Changes:
+   	git add .
+   	git commit -m "Initial commit of TODO application"
+4. Create a New Repository on GitHub:
+   Go to GitHub, create a new repository, and copy the repository URL.
+
+5. Link Your Local Repository to GitHub:
+In your terminal, link your local repository to the GitHub repository.
+git remote add origin https://github.com/yourusername/todo-app.git
+6. Push Your Code to GitHub:
+git push -u origin master
+
+==============================================================================
+STEP 7: DEPLOY YOUR APPLICATION
+==============================================================================
+
+Step 7: Deploy Your Application
+You can deploy your React application using GitHub Pages. Here’s how:
+1. Install gh-pages:
+   	Install the gh-pages package.
+  	npm install gh-pages --save-dev
+2. Update package.json:
+   Add the following properties to your package.json:
+   json
+   "homepage": "https://yourusername.github.io/todo-app",
+   And add the following scripts:
+   "scripts": {
+       "predeploy": "npm run build",
+       "deploy": "gh-pages -d build"
+   }
+3. Deploy Your Application:
+   Run the deploy command.
+   	npm run deploy
+
+==============================================================================
+STEP 8: ACCESS YOUR DEPLOYED APPLICATION
+==============================================================================
+
+ Step 5: Access Your Deployed Application
+After deploying, you can access your TODO application at the URL you specified in the homepage property of package.json. It should look like this: https://yourusername.github.io/todo-app
