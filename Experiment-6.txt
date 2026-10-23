@@ -21,15 +21,12 @@ npm i
 npm install bootstrap
 npm install react-router-dom
 
-Run application use this command npm run dev
+3.Run application use this command npm run dev
 
-==============================================================================
-STEP 2: CREATE THE NECESSARY COMPONENTS
-==============================================================================
-
-Create the TodoItem Component
+4.Create the TodoItem Component
 Create a file named TodoItem.js inside the components folder.
 // src/components/TodoItem.js
+
 
 import React from 'react';
 const TodoItem = ({ todo, onDelete }) => {
@@ -42,7 +39,7 @@ const TodoItem = ({ todo, onDelete }) => {
 }
 export default TodoItem;
 
-Create the TodoList Component
+5.Create the TodoList Component
  // src/components/TodoList.js
 
 import React from 'react';
@@ -58,9 +55,10 @@ const TodoList = ({ todos, onDelete }) => {
 };
 export default TodoList;
 
-Create the AddTodo Component
+6.Create the AddTodo Component
 Create a file named AddTodo.js.
 // src/components/AddTodo.js
+
 
 import React, { useState } from 'react';
 const AddTodo = ({ onAdd }) => {
@@ -88,7 +86,7 @@ const AddTodo = ({ onAdd }) => {
 export default AddTodo;
 
 ==============================================================================
-STEP 3: CREATE THE MAIN APPLICATION COMPONENT (src/App.js)
+STEP : CREATE THE MAIN APPLICATION COMPONENT (src/App.js)
 ==============================================================================
 
 Step 3: Create the Main Application Component (src/App.js)
@@ -129,7 +127,7 @@ function App() {
 export default App;
 
 ==============================================================================
-STEP 4: CREATE THE MAIN ENTRY FILE (main.jsx)
+ main.jsx
 ==============================================================================
 
 main.jsx
@@ -146,7 +144,7 @@ createRoot(document.getElementById('root')).render(
 )
 
 ==============================================================================
-STEP 5: RUN YOUR APPLICATION
+STEP : RUN YOUR APPLICATION
 ==============================================================================
 
 Step 5: Run Your Application
@@ -154,7 +152,7 @@ Run your application locally to test it.
 npm start
 
 ==============================================================================
-STEP 6: DEPLOY TO GITHUB
+STEP : DEPLOY TO GITHUB
 ==============================================================================
 
 Step 6: Deploy to GitHub
@@ -178,7 +176,7 @@ git remote add origin https://github.com/yourusername/todo-app.git
 git push -u origin master
 
 ==============================================================================
-STEP 7: DEPLOY YOUR APPLICATION
+STEP : DEPLOY YOUR APPLICATION
 ==============================================================================
 
 Step 7: Deploy Your Application
@@ -200,8 +198,8 @@ You can deploy your React application using GitHub Pages. Here’s how:
    	npm run deploy
 
 ==============================================================================
-STEP 8: ACCESS YOUR DEPLOYED APPLICATION
+STEP : ACCESS YOUR DEPLOYED APPLICATION
 ==============================================================================
 
- Step 5: Access Your Deployed Application
+ Step : Access Your Deployed Application
 After deploying, you can access your TODO application at the URL you specified in the homepage property of package.json. It should look like this: https://yourusername.github.io/todo-app
