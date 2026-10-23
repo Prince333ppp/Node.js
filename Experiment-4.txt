@@ -98,6 +98,9 @@ SOURCE FILE: index.html
 
 
 
+
+Step 2: Create the JavaScript File
+
 ==============================================================================
 SOURCE FILE: Assets/js/script.js
 ==============================================================================
@@ -128,3 +131,9 @@ async function getWeather() {
         weatherResult.textContent = `Error fetching weather data: ${error.message}`;
     }
 }
+
+
+Step 3: Run the Application
+1. Make sure to replace YOUR_API_KEY in the JavaScript file with a valid OpenWeatherMap API key.
+2. Open the index.html file in a web browser.
+3. Enter a city name and click the "Get Weather" button to see the current temperature displayed on the graph
