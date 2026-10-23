@@ -1,0 +1,173 @@
+==============================================================================
+EXPERIMENT 8
+==============================================================================
+
+==============================================================================
+STEP 1: CREATE YOUR XML, DTD, AND XSD FILES
+==============================================================================
+
+Create three files in your project directory: bookstore.xml, bookstore.dtd, and bookstore.xsd.
+
+==============================================================================
+SOURCE FILE: bookstore.xml
+==============================================================================
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE bookstore SYSTEM "bookstore.dtd">
+<bookstore xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="bookstore.xsd">
+<book>
+<title>The Great Gatsby</title>
+<author>F. Scott Fitzgerald</author>
+<price>10.99</price>
+<genre>Fiction</genre>
+<publish_date>1925-04-10</publish_date>
+</book>
+<book>
+<title>1984</title>
+<author>George Orwell</author>
+<price>9.99</price>
+<genre>Dystopian</genre>
+<publish_date>1949-06-08</publish_date>
+</book>
+<book>
+<title>To Kill a Mockingbird</title>
+<author>Harper Lee</author>
+<price>7.99</price>
+<genre>Fiction</genre>
+<publish_date>1960-07-11</publish_date>
+</book>
+</bookstore>
+
+==============================================================================
+SOURCE FILE: bookstore.dtd
+==============================================================================
+
+	<!ELEMENT bookstore (book+)>
+	<!ELEMENT book (title, author, price, genre, publish_date)>
+	<!ELEMENT title (#PCDATA)>
+	<!ELEMENT author (#PCDATA)>
+	<!ELEMENT price (#PCDATA)>
+	<!ELEMENT genre (#PCDATA)>
+	<!ELEMENT publish_date (#PCDATA)>
+
+==============================================================================
+SOURCE FILE: bookstore.xsd
+==============================================================================
+
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<xs:element name="bookstore">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="book" maxOccurs="unbounded">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="title" type="xs:string"/>
+<xs:element name="author" type="xs:string"/>
+<xs:element name="price" type="xs:decimal"/>
+<xs:element name="genre" type="xs:string"/>
+<xs:element name="publish_date" type="xs:date"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:schema>
+
+==============================================================================
+STEP 2: CREATE JAVA FILE TO VALIDATE XML AGAINST XSD AND DTD
+==============================================================================
+
+==============================================================================
+SOURCE FILE: validate.java
+==============================================================================
+
+import org.w3c.dom.Document;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+
+import java.io.File;
+import java.io.IOException;
+
+public class validate {
+
+    // Validating XML against XSD
+    public static void validateXSD() {
+        try {
+            SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            Schema schema = schemaFactory.newSchema(new File("bookstore.xsd"));
+            Validator validator = schema.newValidator();
+            validator.validate(new StreamSource(new File("bookstore.xml")));
+            System.out.println("XML is valid against XSD.");
+        } catch (SAXException e) {
+            System.err.println("XML is NOT valid against XSD: " + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("Error reading XML or XSD file: " + e.getMessage());
+        }
+    }
+
+    // Validating XML against DTD
+    public static void validateDTD() {
+        try {
+            File xmlFile = new File("bookstore.xml");
+
+            // DocumentBuilderFactory validates against whatever DOCTYPE is
+            // declared inside the XML file itself (bookstore.dtd in this case).
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setValidating(true);   // Enable DTD validation
+            factory.setNamespaceAware(true);
+
+            DocumentBuilder builder = factory.newDocumentBuilder();
+
+            // A DocumentBuilder ignores validation errors by default unless
+            // you attach an ErrorHandler - so we attach one that throws.
+            builder.setErrorHandler(new ErrorHandler() {
+                @Override
+                public void warning(SAXParseException e) throws SAXException {
+                    System.out.println("Warning: " + e.getMessage());
+                }
+
+                @Override
+                public void error(SAXParseException e) throws SAXException {
+                    throw e;
+                }
+
+                @Override
+                public void fatalError(SAXParseException e) throws SAXException {
+                    throw e;
+                }
+            });
+
+            Document document = builder.parse(xmlFile);
+            System.out.println("XML is valid against DTD.");
+
+        } catch (SAXException e) {
+            System.err.println("XML is NOT valid against DTD: " + e.getMessage());
+        } catch (ParserConfigurationException e) {
+            System.err.println("Parser configuration error: " + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("I/O error: " + e.getMessage());
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println("VALIDATING XML AGAINST XSD......");
+        validateXSD();
+        System.out.println("------------------------");
+        System.out.println("VALIDATING XML AGAINST DTD......");
+        validateDTD();
+    }
+}
