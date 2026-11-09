@@ -1,0 +1,205 @@
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   EXPERIMENT 10 - EXPRESS REST API CRUD OPERATIONS ON STUDENT DATA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   EXPERIMENT 10
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   EXPERIMENT 10. DEVELOP AN EXPRESS WEB APPLICATION THAT CAN INTERACT WITH REST API TO PERFORM CRUD OPERATIONS ON STUDENT DATA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   AIM: TO CREATE AN EXPRESS WEB APPLICATION THAT INTERACTS WITH A REST API TO PERFORM CRUD OPERATIONS ON STUDENT DATA.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   DESCRIPTION:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+To perform the CRUD operations on student data using nodejs and need to perform the following steps:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STEP 1: CREATE NODEJS APPLICATION (STUDENTAPP)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+	npx create-node-app studentapp
+	cd studentapp
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STEP 2: CREATE APP.JS AND INDEX.HTML FILE AS FOLLOWS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   APP.JS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const express = require("express");
+const cors = require("cors"); // Import the CORS middleware
+const app = express();
+
+// Enable CORS for all routes
+app.use(cors());
+
+// Middleware to parse JSON request bodies
+app.use(express.json());
+
+let students = [
+    { id: 1, name: "John Doe", age: 20 },
+    { id: 2, name: "Jane Smith", age: 22 },
+];
+
+// GET all students
+app.get("/students", (req, res) => {
+    res.json(students);
+});
+
+// GET a single student by ID
+app.get("/students/:id", (req, res) => {
+    const student = students.find((s) => s.id === parseInt(req.params.id));
+    if (!student) return res.status(404).json({ message: "Student not found" });
+    res.json(student);
+});
+
+// POST a new student
+app.post("/students", (req, res) => {
+    const student = {
+        id: students.length + 1,
+        name: req.body.name,
+        age: req.body.age,
+    };
+    students.push(student);
+    res.status(201).json(student);
+});
+
+// PUT (update) a student by ID
+app.put("/students/:id", (req, res) => {
+    const student = students.find((s) => s.id === parseInt(req.params.id));
+    if (!student) return res.status(404).json({ message: "Student not found" });
+
+    student.name = req.body.name;
+    student.age = req.body.age;
+    res.json(student);
+});
+
+// DELETE a student by ID
+app.delete("/students/:id", (req, res) => {
+    const studentIndex = students.findIndex((s) => s.id === parseInt(req.params.id));
+    if (studentIndex === -1) return res.status(404).json({ message: "Student not found" });
+
+    students.splice(studentIndex, 1);
+    res.status(204).send();
+});
+
+// Start the server
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   INDEX.HTML
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD OPERATIONs - Student Data</title>
+</head>
+<body>
+    <h1>CRUD OPERATIONs | Student Data</h1>
+       <button onclick="createStudent()">POST New Student</button>
+    <button onclick="updateStudent(1)">PUT Update Student</button>
+    <button onclick="deleteStudent(1)">DELETE Student</button>
+
+    <h2>Response:</h2>
+    <pre id="response"></pre>
+
+    <script>
+        const responseElement = document.getElementById("response");
+
+        // Function to handle API responses
+        async function handleResponse(response) {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        }
+
+        // GET all students
+        async function getStudents() {
+            try {
+                const response = await fetch("http://localhost:3000/students");
+                const data = await handleResponse(response);
+                responseElement.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                responseElement.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        // POST a new student
+        async function createStudent() {
+            try {
+                const response = await fetch("http://localhost:3000/students", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name: "Alice Johnson", age: 21 }),
+                });
+                const data = await handleResponse(response);
+                responseElement.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                responseElement.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        // PUT (update) a student by ID
+        async function updateStudent(id) {
+            try {
+                const response = await fetch(`http://localhost:3000/students/${id}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name: "John Doe Updated", age: 25 }),
+                });
+                const data = await handleResponse(response);
+                responseElement.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                responseElement.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        // DELETE a student by ID
+        async function deleteStudent(id) {
+            try {
+                const response = await fetch(`http://localhost:3000/students/${id}`, {
+                    method: "DELETE",
+                });
+                responseElement.textContent = `Status: ${response.status}`;
+            } catch (error) {
+                responseElement.textContent = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   OUTPUT:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   VIVA QUESTIONS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+What is Express.js, and how does it simplify building web applications and APIs in Node.js?
+How would you implement a RESTful API using Express to perform CRUD operations on student data?
+Can you explain how you would handle HTTP methods (GET, POST, PUT, DELETE) in your Express application to manage student data?
+How would you structure the routes and controllers in an Express application for student CRUD operations?
+How can you validate incoming request data in your Express API before performing the CRUD operations?

@@ -1,0 +1,192 @@
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   EXPERIMENT 12 - SESSION TRACKING USING COOKIES AND HTTP SESSION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   EXPERIMENT 12
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   EXPERIMENT 12. MAINTAINING THE TRANSACTIONAL HISTORY OF ANY USER USING SESSION TRACKING MECHANISMS (COOKIES, HTTP SESSION)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   AIM: TO EXPLORE SESSION TRACKING MECHANISMS (COOKIES, HTTP SESSION) FOR MAINTAINING TRANSACTIONAL HISTORY.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   DESCRIPTION: THIS EXPERIMENT DEMONSTRATES HOW TO USE HTTP SESSIONS AND COOKIES TO TRACK A USER’S ACTIVITY AND STORE TRANSACTIONAL HISTORY.SOURCE CODE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Cookies: Cookies are small data pieces stored on a user's device by a web browser, used to maintain user-specific information between the client and the server.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STEP 1: CONTINUING EXPERIMENT 7 CREATE A JAVA FILE TO MAINTAIN COOKIES AND SESSIONS RELATED TO TRANSACTIONS PERFORMED.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   TRANSACTIONSERVLET.JAVA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import java.io.*;
+import java.util.*;
+
+public class TransactionServlet extends HttpServlet {
+    private static final String TRANSACTION_HISTORY_ATTRIBUTE = "transactionHistory";
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        // Get or create session
+        HttpSession session = request.getSession(true);
+        List<String> transactionHistory = (List<String>) session.getAttribute(TRANSACTION_HISTORY_ATTRIBUTE);
+        // Initialize transaction history if it doesn't exist
+        if (transactionHistory == null) {
+            transactionHistory = new ArrayList<>();
+            session.setAttribute(TRANSACTION_HISTORY_ATTRIBUTE, transactionHistory);
+        }
+        // Get item details from request parameters
+        String itemName = request.getParameter("name");
+        String itemId = request.getParameter("id");
+
+        // Validate and add transaction
+        if (itemName != null && !itemName.trim().isEmpty() && itemId != null && !itemId.trim().isEmpty()) {
+            String newTransaction = "Purchased Item: " + itemName + " (ID: " + itemId + ")";
+            transactionHistory.add(newTransaction);
+        }
+        // Display transaction history
+        out.println("<html><body>");
+        out.println("<h2>User Transaction History</h2>");
+        out.println("<p>Current Session ID: " + session.getId() + "</p>");
+
+        out.println("<h3>Your Transaction History:</h3>");
+        if (transactionHistory.isEmpty()) {
+            out.println("<p>No transactions made yet.</p>");
+        } else {
+            out.println("<ul>");
+            for (String transaction : transactionHistory) {
+                out.println("<li>" + transaction + "</li>");
+            }
+            out.println("</ul>");
+        }
+        // Navigation links
+        out.println("<a href='/ViewProductsServlet/fetchData'>View Available Products</a><br>");
+        out.println("<a href='/TransactionServlet'>Add Another Transaction</a>");
+        out.println("</body></html>");
+    }
+}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   VIEWPRODUCTSSERVLET.JAVA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import java.io.*;
+import java.util.*;
+public class TransactionServlet extends HttpServlet {
+    private static final String TRANSACTION_HISTORY_ATTRIBUTE = "transactionHistory";
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        // Get or create session
+        HttpSession session = request.getSession(true);
+        List<String> transactionHistory = (List<String>) session.getAttribute(TRANSACTION_HISTORY_ATTRIBUTE);
+        // Initialize transaction history if it doesn't exist
+        if (transactionHistory == null) {
+            transactionHistory = new ArrayList<>();
+            session.setAttribute(TRANSACTION_HISTORY_ATTRIBUTE, transactionHistory);
+        }
+        // Get item details from request parameters
+        String itemName = request.getParameter("name");
+        String itemId = request.getParameter("id");
+        // Validate and add transaction
+        if (itemName != null && !itemName.trim().isEmpty() && itemId != null && !itemId.trim().isEmpty()) {
+            String newTransaction = "Purchased Item: " + itemName + " (ID: " + itemId + ")";
+            transactionHistory.add(newTransaction);
+        }
+        // Display transaction history
+        out.println("<html><body>");
+        out.println("<h2>User Transaction History</h2>");
+        out.println("<p>Current Session ID: " + session.getId() + "</p>");
+        out.println("<h3>Your Transaction History:</h3>");
+        if (transactionHistory.isEmpty()) {
+            out.println("<p>No transactions made yet.</p>");
+        } else {
+            out.println("<ul>");
+            for (String transaction : transactionHistory) {
+                out.println("<li>" + transaction + "</li>");
+            }
+            out.println("</ul>");
+        }
+        // Navigation links
+        out.println("<a href='/ViewProductsServlet/fetchData'>View Available Products</a><br>");
+        out.println("<a href='/TransactionServlet'>Add Another Transaction</a>");
+        out.println("</body></html>");
+    }
+}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   WEB.XML
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+    <servlet>
+        <servlet-name>ViewProductsServlet</servlet-name>
+        <servlet-class>ViewProductsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewProductsServlet</servlet-name>
+        <url-pattern>/fetchData</url-pattern>
+    </servlet-mapping>
+        <servlet>
+        <servlet-name>TransactionServlet</servlet-name>
+        <servlet-class>TransactionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TransactionServlet</servlet-name>
+        <url-pattern>/TransactionServlet</url-pattern>
+    </servlet-mapping>
+</web-app>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   OUTPUT:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   NO TRANSACTIONS ARE MADE BY THE USER IN THE CART PAGE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+
+
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   WHEN THE USER CLICKS ON THE CART PAGE, TRANSACTIONS WILL GET SAVED IN THE SESSION.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+
+
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   IN CASE IF THE USER BUYS THE PRODUCTS, THE SESSION GETS SAVED IN THE TRANSACTIONAL HISTORY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   VIVA QUESTIONS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+What are the different session tracking mechanisms available in web applications, and how do Cookies and HTTP Sessions differ?
+How would you use HTTP Session to store transactional data, and how can you ensure that it is secure?
+What is the role of a session ID, and how is it used to maintain the user session in web applications?
+How would you use Cookies to track a user’s transactional history? What are the limitations of using Cookies for session tracking?
+How would you implement a mechanism to expire or clear the session data after a certain period of inactivity?

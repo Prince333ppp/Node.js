@@ -1,0 +1,201 @@
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   EXPERIMENT 14 - JAVA JDBC STANDALONE APPLICATION FOR CRUD OPERATIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   EXPERIMENT 14
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   EXPERIMENT 14. DEVELOP A JAVA STANDALONE APPLICATION THAT CONNECTS WITH THE DATABASE (ORACLE/MYSQL) AND PERFORMS THE CRUD OPERATION ON THE DATABASE TABLES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   AIM: TO CREATE A JAVA APPLICATION THAT CONNECTS TO A MYSQL DATABASE AND PERFORMS CRUD OPERATIONS.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   DESCRIPTION: TO DEVELOP A STANDALONE JAVA APPLICATION THAT CONNECTS TO A MYSQL DATABASE AND PERFORMS CRUD (CREATE, READ, UPDATE, DELETE) OPERATIONS FOR A SHOPPING CART APPLICATION, NEED TO FOLLOW SEVERAL STEPS. FOLLOW THE STEPS PROVIDED BELOW:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STEP 1: SET UP YOUR ENVIRONMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Install MySQL: Make sure you have MySQL Server installed on your machine.
+2. Create a Database: Create a new database for the shopping cart application.
+3. Add MySQL Connector: Download the MySQL JDBC driver (Connector/J) and add it to your project's classpath.
+4. javac -classpath /path/to/your/libs/*    /path/to/your/JavaFile.java
+5. Use Above Command and attach your jar file to your classpath
+6. javac -classpath ".;mysql-connector-j-9.2.0.jar" Main.java
+7. java -classpath ".;mysql-connector-j-9.2.0.jar" Main
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STEP 2: CREATE THE DATABASE AND TABLE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+You can create a database and a table for the shopping cart using the following SQL commands.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   DATABASE CREATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CREATE DATABASE shopping_cart;
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   OPEN DATABASE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+USE shopping_cart;
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CREATE PRODUCTS TABLE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CREATE TABLE products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    quantity INT NOT NULL
+);
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STEP 3: CREATE THE JAVA APPLICATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Create a Java Project: Create a new Java project in your IDE (like IntelliJ IDEA or Eclipse).
+2. Add MySQL Connector: Ensure that the MySQL JDBC driver is added to your project's libraries.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STEP 4: IMPLEMENT THE CRUD OPERATIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   MAIN.JAVA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import java.sql.*;
+import java.util.Scanner;
+public class Main {
+    private static final String URL = "jdbc:mysql://localhost:3306/shopping_cart";
+    private static final String USER = "root"; // Your MySQL username
+    private static final String PASSWORD = "password"; // Your MySQL password
+    public static void main(String[] args) {
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
+            Scanner scanner = new Scanner(System.in);
+            int choice;
+            do {
+System.out.println("1. Add Product");
+System.out.println("2. View Products");
+System.out.println("3. Update Product");
+System.out.println("4. Delete Product");
+System.out.println("5. Exit");
+System.out.print("Enter your choice: ");
+                choice = scanner.nextInt();
+scanner.nextLine(); // Consume newline
+                switch (choice) {
+                    case 1:
+addProduct(connection, scanner);
+                        break;
+                    case 2:
+viewProducts(connection);
+                        break;
+                    case 3:
+updateProduct(connection, scanner);
+                        break;
+                    case 4:
+deleteProduct(connection, scanner);
+                        break;
+                    case 5:
+System.out.println("Exiting...");
+                        break;
+                    default:
+System.out.println("Invalid choice. Please try again.");
+                }
+            } while (choice != 5);
+        } catch (SQLException e) {
+e.printStackTrace();
+        }
+    }
+    private static void addProduct(Connection connection, Scanner scanner) throws SQLException {
+System.out.print("Enter product name: ");
+        String name = scanner.nextLine();
+System.out.print("Enter product price: ");
+        double price = scanner.nextDouble();
+System.out.print("Enter product quantity: ");
+        int quantity = scanner.nextInt();
+        String sql = "INSERT INTO products (name, price, quantity) VALUES (?, ?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+statement.setString(1, name);
+statement.setDouble(2, price);
+statement.setInt(3, quantity);
+statement.executeUpdate();
+System.out.println("Product added successfully.");
+        }
+    }
+    private static void viewProducts(Connection connection) throws SQLException {
+        String sql = "SELECT * FROM products";
+        try (Statement statement = connection.createStatement();
+ResultSetresultSet = statement.executeQuery(sql)) {
+System.out.println("Products in the Shopping Cart:");
+            while (resultSet.next()) {
+System.out.println("ID: " + resultSet.getInt("id") +
+                                   ", Name: " + resultSet.getString("name") +
+                                   ", Price: " + resultSet.getDouble("price") +
+                                   ", Quantity: " + resultSet.getInt("quantity"));
+            }
+        }
+    }
+    private static void updateProduct(Connection connection, Scanner scanner) throws SQLException {
+System.out.print("Enter product ID to update: ");
+        int id = scanner.nextInt();
+scanner.nextLine(); // Consume newline
+System.out.print("Enter new product name: ");
+        String name = scanner.nextLine();
+System.out.print("Enter new product price: ");
+        double price = scanner.nextDouble();
+System.out.print("Enter new product quantity: ");
+        int quantity = scanner.nextInt();
+        String sql = "UPDATE products SET name = ?, price = ?, quantity = ? WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+statement.setString(1, name);
+statement.setDouble(2, price);
+statement.setInt(3, quantity);
+statement.setInt(4, id);
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated> 0) {
+System.out.println("Product updated successfully.");
+            } else {
+System.out.println("Product not found.");
+            }
+        }
+    }
+    private static void deleteProduct(Connection connection, Scanner scanner) throws SQLException {
+System.out.print("Enter product ID to delete: ");
+        int id = scanner.nextInt();
+        String sql = "DELETE FROM products WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+statement.setInt(1, id);
+            int rowsDeleted = statement.executeUpdate();
+            if (rowsDeleted> 0) {
+System.out.println("Product deleted successfully.");
+            } else {
+System.out.println("Product not found.");
+            }
+        }
+    }
+}
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STEP 5:RUNNING THE APPLICATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Compile and Run: Compile and run the Main.java file in your IDE or command line.
+2. Perform CRUD Operations: Follow the prompts to add, view, update, or delete products in the shopping cart.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   OUTPUT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ENTER THE CHOICE FROM BELOW OPTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SELECTED OPTION 2 TO VIEW PRODUCTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   VIVA QUESTIONS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+How do you connect a Java application to a database like MySQL or Oracle? Can you explain the role of JDBC in this process?
+What are the basic CRUD operations, and how would you implement them using JDBC in a Java application?
+What is the difference between Statement, PreparedStatement, and CallableStatement in JDBC? Which one would you use for executing SQL queries?
+How would you handle exceptions in JDBC when performing database operations?
+What is the purpose of connection pooling, and how does it improve the performance of a Java application interacting with a database?

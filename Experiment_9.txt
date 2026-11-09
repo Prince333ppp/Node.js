@@ -1,0 +1,81 @@
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   EXPERIMENT 9 - CUSTOM HTTP SERVER AND NODE.JS CORE MODULES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   EXPERIMENT 9
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Create a Custom Server Using HTTP Module and Explore Other Modules of Node.js Like OS, Path, Event
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   AIM: TO CREATE A CUSTOM HTTP SERVER USING NODE.JS AND EXPLORE OTHER MODULES LIKE OS, PATH, AND EVENT.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   DESCRIPTION:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+To create a custom server using http module and exploring the core modules of NodeJs we need to write the following code and run as instructed respectively.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SERVER.JS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const http = require("http");
+const os = require("os");
+const path = require("path");
+const EventEmitter = require("events");
+
+// Create a custom event emitter
+const eventEmitter = new EventEmitter();
+// Create an HTTP server
+const server = http.createServer((req, res) => {
+    if (req.url === "/") {
+res.writeHead(200, { "Content-Type": "text/plain" });
+res.end("Welcome to the Node.js Server!");
+    } else if (req.url === "/os") {
+res.writeHead(200, { "Content-Type": "text/plain" });
+res.end(`OS Info: ${os.type()} ${os.release()}`);
+    } else if (req.url === "/path") {
+        const filePath = path.join(__dirname, "server.js");
+res.writeHead(200, { "Content-Type": "text/plain" });
+res.end(`File Path: ${filePath}`);
+    } else if (req.url === "/event") {
+eventEmitter.on("greet", () => {
+res.writeHead(200, { "Content-Type": "text/plain" });
+res.end("Event Emitted: Hello World!");
+        });
+eventEmitter.emit("greet");
+    } else {
+res.writeHead(404, { "Content-Type": "text/plain" });
+res.end("404 Not Found");
+    }
+});
+// Start the server
+const PORT = 3000;
+server.listen(PORT, () => {
+console.log(`Server is running on http://localhost:${PORT}`);
+});
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   HOW TO RUN:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   RUN THE SERVER USING THE COMMAND:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+Open your browser and visit:
+http://localhost:3000for the welcome message.
+
+http://localhost:3000/osfor OS information and http://localhost:3000/pathfor the file path.
+
+
+
+http://localhost:3000/eventto trigger an event.
+
+http://localhost:3000/component -- component is not a nodejs module
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   VIVA QUESTIONS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+How would you create a custom HTTP server using Node.js? Can you explain the basic code to handle incoming HTTP requests and responses?
+What is the fs module in Node.js, and how would you use it to interact with the file system?
+How does the os module in Node.js provide system-level information, and what are some practical uses for it?
+What is the purpose of the path module in Node.js, and how can it be used to manipulate file paths?
+Can you explain the Event-driven architecture in Node.js? How does the events module enable event handling in your application?

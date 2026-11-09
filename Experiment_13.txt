@@ -1,0 +1,367 @@
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   EXPERIMENT 13 - SERVLET CONTROLLER WITH DATABASE INTERACTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   EXPERIMENT 13
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+13. Design a Controller with Servlet That Provides the Interaction with Application Developed in Experiment 1 and the Database Created in Experiment 5
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   AIM: DESIGN A CONTROLLER WITH SERVLET THAT PROVIDES THE INTERACTION WITH APPLICATION DEVELOPED IN EXPERIMENT 1: BUILD A RESPONSIVE WEB APPLICATION FOR SHOPPING CART WITH REGISTRATION, LOGIN, CATALOG AND CART PAGES USING CSS3 FEATURES, FLEX AND GRID AND THEDATABASE CREATED IN EXPERIMENT 5: DEVELOP A JAVA STANDALONE APPLICATION THAT CONNECTS WITH THE DATABASE (ORACLE / MYSQL) AND PERFORM THE CRUD OPERATION ON THE DATABASE TABLES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   DESCRIPTION:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+To develop a Servlet Controller that interacts with the Shopping Cart Application and the Products Database.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STEP 1: SET UP YOUR ENVIRONMENT:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   REQUIRED SOFTWARE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+JDK 8+
+Apache Tomcat (10.x or 9.x)
+MySQL Server
+MySQL Connector JAR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STEP 2: STEPS TO RUN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Set Up Eclipse and Apache Tomcat
+Open Eclipse
+Install Tomcat Plugin (If Not Installed)
+Go to Help → Eclipse Marketplace
+Search for "Apache Tomcat"
+Install the Eclipse Web Tools Platform (WTP) if needed.
+Add Tomcat Server
+Go to Window → Show View → Servers
+Right-click and select New → Server
+Choose Apache → Tomcat 9.0 (or your installed version)
+Click Next, set Tomcat installation directory, and finish.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STEP 3: CREATE A NEW DYNAMIC WEB PROJECT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Go to File → New → Dynamic Web Project
+Enter Project Name: ViewProductsServlet
+Select Target Runtime: Choose Apache Tomcat 9.0
+Click Next → Next → Finish
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STEP 4: ADD MYSQL JDBC DRIVER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Download MySQL Connector JAR → Download
+Copy the JAR to WebContent/WEB-INF/lib/
+Right-click the project → Build Path → Configure Build Path → Add External JARs
+Select mysql-connector-java.jar and click Apply
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CREATE THE SERVLET
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Right-click on src → New → Servlet
+Enter Class Name: ViewProductsServlet
+Click Finish
+Modify ViewProductsServlet.java as follows
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STEP 5: CODE IMPLEMENTATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   VIEWPRODUCTSSERVLET.JAVA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import java.io.*;
+import java.util.*;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import java.sql.*;
+
+public class ViewProductsServlet extends HttpServlet {
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/shopping_cart";
+    private static final String DB_USERNAME = "root";
+    private static final String DB_PASSWORD = "root";
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+
+        HttpSession session = request.getSession(); // Get the session
+        List<String> transactionHistory = (List<String>) session.getAttribute("transactionHistory");
+
+        if (transactionHistory == null) {
+            transactionHistory = new ArrayList<>();
+        }
+
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+            stmt = conn.createStatement();
+            String sql = "SELECT * FROM products;";
+            rs = stmt.executeQuery(sql);
+
+            out.println("<html><head><title>Shopping Cart</title></head><body>");
+            out.println("<!DOCTYPE html>\r\n"
+            		+ "<html lang=\"en\">\r\n"
+            		+ "<head>\r\n"
+            		+ "<meta charset=\"UTF-8\">\r\n"
+            		+ "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n"
+            		+ "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css\">\r\n"
+            		+ "<title>Shopping Cart App</title>\r\n"
+            		+ "<style>\r\n"
+            		+ "* {\r\n"
+            		+ "    box-sizing: border-box;\r\n"
+            		+ "}\r\n"
+            		+ "body {\r\n"
+            		+ "    font-family: Arial, sans-serif;\r\n"
+            		+ "    margin: 0;\r\n"
+            		+ "    padding: 0;\r\n"
+            		+ "    background-color: #f4f4f4;\r\n"
+            		+ "}\r\n"
+            		+ "header {\r\n"
+            		+ "    background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);\r\n"
+            		+ "    color: white;\r\n"
+            		+ "    padding: 20px 10px;\r\n"
+            		+ "    text-align: center;\r\n"
+            		+ "    position: relative;\r\n"
+            		+ "}\r\n"
+
+            		+ ".logo img {\r\n"
+            		+ "    max-width: 90px;\r\n"
+            		+ "    height: 90px;\r\n"
+            		+ "    position: absolute;\r\n"
+            		+ "    left: 20px;\r\n"
+            		+ "    top: 20px;\r\n"
+            		+ "}\r\n"
+            		+ "nav {\r\n"
+            		+ "    margin-top: 20px;\r\n"
+            		+ "}\r\n"
+            		+ "nav a {\r\n"
+            		+ "    margin: 0 15px;\r\n"
+            		+ "    color: white;\r\n"
+            		+ "    text-decoration: none;\r\n"
+            		+ "    font-weight: bold;\r\n"
+            		+ "    transition: color 0.3s;\r\n"
+            		+ "}\r\n"
+            		+ "nav a:hover {\r\n"
+            		+ "    color: #ffeb3b;\r\n"
+            		+ "}\r\n"
+            		+ "nav .active {\r\n"
+            		+ "    color: #ffeb3b;\r\n"
+            		+ "    font-weight: bold;\r\n"
+            		+ "    border-bottom: 2px solid #ffeb3b;\r\n"
+            		+ "    padding-bottom: 5px;\r\n"
+            		+ "}\r\n"
+            		+ "main {\r\n"
+            		+ "    padding: 20px;\r\n"
+            		+ "}\r\n"
+            		+ ".cart-item {\r\n"
+            		+ "    border: 1px solid #ccc;\r\n"
+            		+ "    padding: 10px;\r\n"
+            		+ "    text-align: center;\r\n"
+            		+ "    border-radius: 5px;\r\n"
+            		+ "    transition: transform 0.2s;\r\n"
+            		+ "    margin-bottom: 10px;\r\n"
+            		+ "}\r\n"
+            		+ ".cart-item:hover {\r\n"
+            		+ "    transform: scale(.9);\r\n"
+            		+ "    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);\r\n"
+            		+ "}\r\n"
+            		+ ".checkout {\r\n"
+            		+ "    display: block;\r\n"
+            		+ "    margin: 20px auto;\r\n"
+            		+ "    padding: 12px 24px;\r\n"
+            		+ "    font-size: 16px;\r\n"
+            		+ "    color: white;\r\n"
+            		+ "    background-color: #4CAF50;\r\n"
+            		+ "    border: none;\r\n"
+            		+ "    border-radius: 5px;\r\n"
+            		+ "    cursor: pointer;\r\n"
+            		+ "    transition: background-color 0.3s, transform 0.2s;\r\n"
+            		+ "}\r\n"
+            		+ ".checkout:hover {\r\n"
+            		+ "    background-color: #388E3C;\r\n"
+            		+ "    transform: scale(1.05);\r\n"
+            		+ "}\r\n"
+            		+ ".checkout:active {\r\n"
+            		+ "    transform: scale(0.95);\r\n"
+            		+ "}\r\n"
+            		+ ".checkout:focus {\r\n"
+            		+ "    outline: none;\r\n"
+            		+ "    box-shadow: 0 0 0 2px #ffeb3b;\r\n"
+            		+ "}\r\n"
+            		+ ".gradient-button {\r\n"
+            		+ "    padding: 12px 20px;\r\n"
+            		+ "    font-size: 16px;\r\n"
+            		+ "    color: white;\r\n"
+            		+ "    background: linear-gradient(90deg, #FF5733, #C70039);\r\n"
+            		+ "    border: none;\r\n"
+            		+ "    border-radius: 5px;\r\n"
+            		+ "    cursor: pointer;\r\n"
+            		+ "    transition: background 0.3s, transform 0.2s;\r\n"
+            		+ "}\r\n"
+            		+ ".gradient-button:hover {\r\n"
+            		+ "    background: linear-gradient(90deg, #C70039, #FF5733);\r\n"
+            		+ "    transform: scale(1.05);\r\n"
+            		+ "}\r\n"
+            		+ ".gradient-button:active {\r\n"
+            		+ "    transform: scale(0.95);\r\n"
+            		+ "}\r\n"
+            		+ ".gradient-button:focus {\r\n"
+            		+ "    outline: none;\r\n"
+            		+ "    box-shadow: 0 0 0 3px rgba(255, 87, 51, 0.5);\r\n"
+            		+ "}\r\n"
+            		+ ".fa {\r\n"
+            		+ "  padding: 20px;\r\n"
+            		+ "  font-size: 30px;\r\n"
+            		+ "  width: 70px;\r\n"
+            		+ "  text-align: center;\r\n"
+            		+ "  text-decoration: none;\r\n"
+            		+ "  margin: 5px 2px;\r\n"
+            		+ "  border-radius:100%;\r\n"
+            		+ "}\r\n"
+            		+ ".fa:hover {\r\n"
+            		+ "    opacity: 0.7;\r\n"
+            		+ "}\r\n"
+            		+ ".fa-facebook {\r\n"
+            		+ "  background: #3B5998;\r\n"
+            		+ "  color: white;\r\n"
+            		+ "}\r\n"
+            		+ ".fa-twitter {\r\n"
+            		+ "  background: #55ACEE;\r\n"
+            		+ "  color: white;\r\n"
+            		+ "}\r\n"
+            		+ ".fa-instagram {\r\n"
+            		+ "  background: #125688;\r\n"
+            		+ "  color: white;\r\n"
+            		+ "}\r\n"
+            		+ "footer {\r\n"
+            		+ "    background-color: #333;\r\n"
+            		+ "    color: white;\r\n"
+            		+ "    text-align: center;\r\n"
+            		+ "    padding: 20px;\r\n"
+            		+ "    position: relative;\r\n"
+            		+ "    bottom: 0;\r\n"
+            		+ "    width: 100%;\r\n"
+            		+ "}\r\n"
+            		+ "footer p {\r\n"
+            		+ "    margin: 5px 0;\r\n"
+            		+ "}\r\n"
+            		+ "footer a {\r\n"
+            		+ "    color: #ffeb3b;\r\n"
+            		+ "    text-decoration: none;\r\n"
+            		+ "    transition: color 0.3s;\r\n"
+            		+ "}\r\n"
+            		+ "footer a:hover {\r\n"
+            		+ "    color: #fff;\r\n"
+            		+ "}\r\n"
+            		+ "</style>\r\n"
+            		+ "</head>\r\n"
+            		+ "<body>\r\n"
+            		+ "<header>\r\n"
+            		+ "    <div class=\"logo\">\r\n"
+            		+ "        <img src=\"logo.png\" alt=\"Logo\" />\r\n"
+            		+ "    </div>\r\n"
+            		+ "    <h1>Welcome to Our Shopping Cart</h1>\r\n"
+            		+ "    <nav>\r\n"
+            		+ "        <a href=\"index.html\">Home</a>\r\n"
+            		+ "        <a href=\"login.html\">Login</a>\r\n"
+            		+ "        <a href=\"register.html\">Register</a>\r\n"
+            		+ "        <a href=\"catalog.html\">Catalog</a>\r\n"
+            		+ "        <a href=\"cart.html\" class=\"active\">Cart</a>\r\n"
+            		+ "    </nav>\r\n"
+            		+ "</header>\r\n"
+            		+ "");
+            out.println("<h2 style='text-align:center;'>Available Products</h2>");
+            out.println("<center>");
+            out.println("<table border='1';align-items: center;><tr><th>ID</th><th>Name</th><th>Price</th><th>Action</th></tr>");
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String price = rs.getString("price");
+
+                out.println("<tr>");
+                out.println("<td>" + id + "</td>");
+                out.println("<td>" + name + "</td>");
+                out.println("<td>" + price + "</td>");
+                out.println("<td><a href='TransactionServlet?id=" + id + "&name=" + name + "&price=" + price + "'>Buy Now</a></td>");
+                out.println("</tr>");
+            }
+
+            out.println("</table>");
+            out.println("<br>");
+            out.println("<br>");
+            out.println("<a href='TransactionServlet'>View Transaction History</a>");
+            out.println("</body></html>");
+            out.println("</center>");
+	    out.println("\r\n"
+            		+ "<footer>\r\n"
+            		+ "    <p>&copy; 2025 Shopping Cart App | Follow us on \r\n"
+            		+ "        <a href=\"#\" class=\"fa fa-facebook\"></a>\r\n"
+            		+ "        <a href=\"#\" class=\"fa fa-twitter\"></a>\r\n"
+            		+ "        <a href=\"#\" class=\"fa fa-instagram\"></a>\r\n"
+            		+ "    </p>\r\n"
+            		+ "</footer>\r\n"
+            		+ "</body>\r\n"
+            		+ "</html>");
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.println("<p>Error: " + e.getMessage() + "</p>");
+        } finally {
+            try { if (rs != null) rs.close(); if (stmt != null) stmt.close(); if (conn != null) conn.close(); }
+            catch (SQLException e) { e.printStackTrace(); }
+        }
+    }
+}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STEP 6: CREATING OF WEB.XML (DEPLOYMENT DESCRIPTOR) FILE TO CONFIGURE SERVLETS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   WEB.XML
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+    <servlet>
+        <servlet-name>ViewProductsServlet</servlet-name>
+        <servlet-class>ViewProductsServlet</servlet-class>
+    </servlet>
+
+</web-app>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   OUTPUT:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   PRODUCTS DATA THAT IS STORED IN SQL TABLE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CONTROLLER SERVLET SUCEESSFULLY FETCHES THE PRODUCTS FROM THE SQL DATABASE TABLE.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+
+
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   VIVA QUESTIONS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+What is a Java Servlet, and how does it work in a web application?
+How would you design a Servlet controller to handle CRUD operations in a web application that interacts with a database?
+Can you explain the process of forwarding requests from a Servlet to a JSP or HTML page after performing database operations?
+How would you manage database connections in a Servlet to ensure efficient and secure communication with the database?
+What are the advantages of using Servlets in a Java web application for database interactions?
