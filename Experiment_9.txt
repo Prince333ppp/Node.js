@@ -79,3 +79,69 @@ What is the fs module in Node.js, and how would you use it to interact with the 
 How does the os module in Node.js provide system-level information, and what are some practical uses for it?
 What is the purpose of the path module in Node.js, and how can it be used to manipulate file paths?
 Can you explain the Event-driven architecture in Node.js? How does the events module enable event handling in your application?
+
+
+
+
+
+
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class MouseEventsDemo extends JFrame {
+
+    JLabel label;
+
+    MouseEventsDemo() {
+
+        setTitle("Mouse Events Demo");
+
+        label = new JLabel("No Event", SwingConstants.CENTER);
+        label.setFont(new Font("Arial", Font.BOLD, 20));
+        add(label);
+
+        addMouseListener(new MouseAdapter() {
+
+            public void mouseClicked(MouseEvent e) {
+                label.setText("Mouse Clicked");
+            }
+
+            public void mousePressed(MouseEvent e) {
+                label.setText("Mouse Pressed");
+            }
+
+            public void mouseReleased(MouseEvent e) {
+                label.setText("Mouse Released");
+            }
+
+            public void mouseEntered(MouseEvent e) {
+                label.setText("Mouse Entered");
+            }
+
+            public void mouseExited(MouseEvent e) {
+                label.setText("Mouse Exited");
+            }
+        });
+
+        addMouseMotionListener(new MouseMotionAdapter() {
+
+            public void mouseMoved(MouseEvent e) {
+                label.setText("Mouse Moved");
+            }
+
+            public void mouseDragged(MouseEvent e) {
+                label.setText("Mouse Dragged");
+            }
+        });
+
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new MouseEventsDemo();
+    }
+}
